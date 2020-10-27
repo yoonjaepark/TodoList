@@ -1,28 +1,42 @@
-import { FETCH_TODOS, FETCH_TODOS_REJECTED } from './todoActions';
+import { FETCH_TODO_LIST, FETCH_TODO_REJECTED, SET_TODO_LIST, ADD_TODO } from './todoActions';
 import RootAction from '../rootAction';
 import { Todo } from '../../interfaces';
 
 export type TodoState = {
-  todos: Todo[];
-  todo: string;
+  list: Todo[];
+  selected: Todo;
 }
 
 const initialState = {
-  todos: [],
-  todo: '',
+  list: [],
+  selected: {
+    title: '',
+    body: '',
+    completed: false,
+    endDate: '',
+    priority: '',
+  },
 };
 
 const products = (state: TodoState = initialState, action: RootAction) => {
 
   switch (action.type) {
-    case FETCH_TODOS:
+    case FETCH_TODO_LIST:
       return Object.assign({}, state, {
-        products: [...state.todos, ...action.payload],
+        list: state.list,
       });
-    case FETCH_TODOS_REJECTED:
+    case FETCH_TODO_REJECTED:
       return Object.assign({}, state, {
         showError: true,
         error: action.error,
+      });
+    case SET_TODO_LIST:
+      return Object.assign({}, state, {
+        list: action.payload,
+      });
+    case ADD_TODO:
+      return Object.assign({}, state, {
+        list: [action.payload, ...state.list],
       });
     default:
       return state;

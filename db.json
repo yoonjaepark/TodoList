@@ -5,27 +5,38 @@
       "title": "일정1",
       "body": "메모1",
       "completed": false,
-      "startDate": "",
       "endDate": "",
-      "priority": 0,
+      "priority": "HIGH"
     },
     {
       "id": 2,
       "title": "일정2",
       "body": "메모2",
       "completed": false,
-      "startDate": "",
       "endDate": "",
-      "priority": 1,
+      "priority": "HIGH"
     },
     {
       "id": 3,
       "title": "일정3",
       "body": "메모3",
       "completed": true,
-      "startDate": "",
       "endDate": "",
-       "priority": 2,
+      "priority": "HIGH"
     },
+    {
+      "title": "1",
+      "body": "1",
+      "priority": "",
+      "endDate": "",
+      "id": 4
+    },
+    {
+      "title": "123",
+      "body": "123",
+      "priority": "LOW",
+      "endDate": "2020-10-16T06:57:42.156Z",
+      "id": 5
+    }
   ]
 }
