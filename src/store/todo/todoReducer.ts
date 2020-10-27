@@ -1,6 +1,23 @@
-import { FETCH_TODO_LIST, FETCH_TODO_REJECTED, SET_TODO_LIST, ADD_TODO } from './todoActions';
+import {
+  FETCH_TODO_LIST,
+  FETCH_TODO_REJECTED,
+  SET_TODO_LIST,
+  ADD_TODO,
+  SET_TODO_SELECTED,
+  EMPTY_SELECTED,
+  UPDATE_TODO,
+} from './todoActions';
 import RootAction from '../rootAction';
 import { Todo } from '../../interfaces';
+import _ from 'lodash';
+
+const initSelected = {
+  title: '',
+  body: '',
+  completed: false,
+  endDate: '',
+  priority: '',
+};
 
 export type TodoState = {
   list: Todo[];
@@ -9,13 +26,7 @@ export type TodoState = {
 
 const initialState = {
   list: [],
-  selected: {
-    title: '',
-    body: '',
-    completed: false,
-    endDate: '',
-    priority: '',
-  },
+  selected: initSelected,
 };
 
 const products = (state: TodoState = initialState, action: RootAction) => {
@@ -38,6 +49,24 @@ const products = (state: TodoState = initialState, action: RootAction) => {
       return Object.assign({}, state, {
         list: [action.payload, ...state.list],
       });
+    case SET_TODO_SELECTED:
+      return Object.assign({}, state, {
+        selected: action.payload,
+      });
+    case EMPTY_SELECTED:
+      return Object.assign({}, state, {
+        selected: initSelected,
+      });
+    case UPDATE_TODO:
+      return {
+        ...state,
+        list: state.list.map((item) => {
+          if (item.id === action.payload.id) {
+            item = action.payload;
+          }
+          return item;
+        }),
+      };
     default:
       return state;
   }

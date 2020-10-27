@@ -7,6 +7,7 @@ import { RootState } from './store/rootReducer';
 import { actions } from './store/rootAction';
 import TextArea from 'antd/es/input/TextArea';
 import { Todo } from './interfaces';
+import moment from 'moment';
 
 const { Panel } = Collapse;
 
@@ -23,8 +24,17 @@ const App = () => {
     dispatch(actions.todos.fetchTodoList());
   }, []);
 
+  useEffect(() => {
+    form.setFieldsValue({ ...todo.selected, endDate: todo.selected.endDate ? moment(todo.selected.endDate) : '' });
+  }, [todo.selected]);
+
   const onClose = () => {
     setShowDrawer(false);
+  };
+
+  const onCreated = () => {
+    dispatch(actions.todos.emptySelected());
+    onOpen();
   };
 
   const onOpen = () => {
@@ -32,15 +42,20 @@ const App = () => {
   };
 
   const onFinish = (values: Todo) => {
-    dispatch(actions.todos.postTodo(values));
+    if (todo.selected.id) {
+      dispatch(actions.todos.patchTodo({ ...values, id: todo.selected.id }));
+    } else {
+      dispatch(actions.todos.postTodo(values));
+    }
     setShowDrawer(false);
   };
 
-  const genExtra = () => (
+  const genExtra = (id: number | undefined) => (
     <>
       <EditOutlined
         onClick={event => {
           event.stopPropagation();
+          dispatch(actions.todos.getTodo(id));
           onOpen();
         }}
       />
@@ -55,7 +70,7 @@ const App = () => {
   const renderTodos = () => {
     return list.map((value, index, array) => {
       return (
-        <Panel header={value.title} key={value.id || ''} extra={genExtra()}>
+        <Panel header={value.title} key={value.id || ''} extra={genExtra(value!.id)}>
           <p>{value.body}</p>
         </Panel>
       );
@@ -65,7 +80,7 @@ const App = () => {
   return (
     <>
       <Header>
-        <Button onClick={onOpen} icon={<PlusCircleOutlined/>}>
+        <Button onClick={onCreated} icon={<PlusCircleOutlined/>}>
           추가하기
         </Button>
       </Header>

@@ -15,6 +15,15 @@ export const getTodoList = async () => {
     });
 };
 
+export const getTodo = async (id: number) => {
+  return await http<any[] | any>({
+    url: `todos/${id}`,
+  })
+    .then((res) => {
+      return res;
+    });
+};
+
 export const addTodo = async (data: Todo) => {
   return await http<any[] | any>({
     url: 'todos',
@@ -22,6 +31,17 @@ export const addTodo = async (data: Todo) => {
     data: data,
   })
     .then((res) => {
+      return res;
+    });
+};
 
+export const patchTodo = async (data: Todo) => {
+  return await http<any[] | any>({
+    url: `todos/${data.id}`,
+    method: 'patch',
+    data: data,
+  })
+    .then((res) => {
+      return res;
     });
 };
