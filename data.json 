@@ -1,0 +1,31 @@
+{
+  "todos": [
+    {
+      "id": 1,
+      "title": "일정1",
+      "body": "메모1",
+      "completed": false,
+      "startDate": "",
+      "endDate": "",
+      "priority": 0,
+    },
+    {
+      "id": 2,
+      "title": "일정2",
+      "body": "메모2",
+      "completed": false,
+      "startDate": "",
+      "endDate": "",
+      "priority": 1,
+    },
+    {
+      "id": 3,
+      "title": "일정3",
+      "body": "메모3",
+      "completed": true,
+      "startDate": "",
+      "endDate": "",
+       "priority": 2,
+    },
+  ]
+}
