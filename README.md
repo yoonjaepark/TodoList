@@ -13,3 +13,8 @@ You will also see any lint errors in the console.
 ### 사용 라이브러리
 - antd: ui 라이브러리 [https://ant.design/](https://ant.design/)
 - json-serve: 가상의 데이터 서버를 구성할 수 있도록 도와주는 라이브러리 [https://github.com/typicode/json-server](https://github.com/typicode/json-server)
+- redux-saga
+- react-redux
+- typesafe-actions
+- redux-devtools-extension
+- lodash
