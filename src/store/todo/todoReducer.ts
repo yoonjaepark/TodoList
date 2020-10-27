@@ -6,10 +6,10 @@ import {
   SET_TODO_SELECTED,
   EMPTY_SELECTED,
   UPDATE_TODO,
+  REMOVE_TODO, SET_TODO_FINISH_LIST, ADD_FINISH_TODO,
 } from './todoActions';
 import RootAction from '../rootAction';
 import { Todo } from '../../interfaces';
-import _ from 'lodash';
 
 const initSelected = {
   title: '',
@@ -21,11 +21,13 @@ const initSelected = {
 
 export type TodoState = {
   list: Todo[];
+  finishList: Todo[];
   selected: Todo;
 }
 
 const initialState = {
   list: [],
+  finishList: [],
   selected: initSelected,
 };
 
@@ -44,6 +46,10 @@ const products = (state: TodoState = initialState, action: RootAction) => {
     case SET_TODO_LIST:
       return Object.assign({}, state, {
         list: action.payload,
+      });
+    case SET_TODO_FINISH_LIST:
+      return Object.assign({}, state, {
+        finishList: action.payload,
       });
     case ADD_TODO:
       return Object.assign({}, state, {
@@ -67,6 +73,15 @@ const products = (state: TodoState = initialState, action: RootAction) => {
           return item;
         }),
       };
+    case REMOVE_TODO:
+      return {
+        ...state,
+        list: Object.assign([], state.list.filter((item) => item.id !== action.payload)),
+      };
+    case ADD_FINISH_TODO:
+      return Object.assign({}, state, {
+        finishList: [action.payload, ...state.finishList],
+      });
     default:
       return state;
   }

@@ -1,91 +1,44 @@
 {
   "todos": [
     {
-      "id": 1,
-      "title": "일정1",
-      "body": "메모1",
-      "completed": false,
-      "endDate": "",
-      "priority": "HIGH"
-    },
-    {
-      "id": 2,
-      "title": "일정2",
-      "body": "메모2",
-      "completed": false,
-      "endDate": "",
-      "priority": "HIGH"
-    },
-    {
-      "id": 3,
-      "title": "일정3",
-      "body": "메모3",
+      "title": "23",
+      "body": "123",
+      "priority": "HIGH",
+      "endDate": "2020-10-14T15:50:56.736Z",
       "completed": true,
-      "endDate": "",
-      "priority": "HIGH"
+      "id": 1
     },
     {
       "title": "1",
       "body": "1",
       "priority": "",
       "endDate": "",
-      "id": 4
+      "completed": true,
+      "id": 2
     },
     {
       "title": "123",
       "body": "123",
-      "priority": "LOW",
-      "endDate": "",
-      "id": 5
-    },
-    {
-      "title": "444",
-      "body": "44",
-      "priority": "MEDIUM",
-      "endDate": "",
-      "id": 6
-    },
-    {
-      "title": "22",
-      "body": "22",
       "priority": "",
       "endDate": "",
-      "id": 7
+      "completed": true,
+      "id": 3
     },
     {
-      "title": "22",
-      "body": "22",
-      "priority": "HIGH",
-      "endDate": "2020-10-27T08:40:01.250Z",
-      "id": 8
+      "title": "123",
+      "body": "123",
+      "priority": "MEDIUM",
+      "endDate": "",
+      "completed": true,
+      "id": 4
     },
     {
-      "title": "223",
-      "body": "22",
-      "priority": "HIGH",
-      "endDate": "2020-10-27T08:40:01.250Z",
-      "id": 9
-    },
-    {
-      "title": "224",
-      "body": "22",
-      "priority": "HIGH",
-      "endDate": "2020-10-27T08:40:01.250Z",
-      "id": 10
-    },
-    {
-      "title": "224",
-      "body": "22",
-      "priority": "HIGH",
-      "endDate": "2020-10-27T08:40:01.250Z",
-      "id": 11
-    },
-    {
-      "title": "1222",
-      "body": "2233",
-      "priority": "HIGH",
-      "endDate": "2020-10-27T08:40:01.250Z",
-      "id": 12
+      "title": "123",
+      "body": "2313",
+      "priority": "",
+      "endDate": "",
+      "completed": false,
+      "id": 5
     }
   ]
 }

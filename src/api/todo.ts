@@ -4,7 +4,7 @@ import { Todo } from '../interfaces';
 
 export const getTodoList = async () => {
   return await http<any[] | any>({
-    url: 'todos?_sort=id&_order=desc',
+    url: 'todos?_sort=id&_order=desc&completed=false',
   })
     .then((res) => {
       if (_.isArray(res)) {
@@ -13,6 +13,19 @@ export const getTodoList = async () => {
         return [res];
       }
     });
+};
+
+export const getTodoFinishList = async () => {
+    return await http<any[] | any>({
+        url: 'todos?_sort=id&_order=desc&completed=true',
+    })
+        .then((res) => {
+            if (_.isArray(res)) {
+                return res;
+            } else {
+                return [res];
+            }
+        });
 };
 
 export const getTodo = async (id: number) => {
@@ -45,3 +58,13 @@ export const patchTodo = async (data: Todo) => {
       return res;
     });
 };
+
+export const deleteTodo = async (id: number) => {
+  return await http<any[] | any>({
+    url: `todos/${id}`,
+    method: 'delete',
+  })
+    .then((res) => {
+      return res;
+    });
+}

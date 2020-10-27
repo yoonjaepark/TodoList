@@ -3,3 +3,7 @@
 .ant-layout-content {
     min-height: calc(100vh - 64px);
 }
+
+.ant-collapse-extra .ant-btn + .ant-btn {
+    margin-left: 5px;
+}
