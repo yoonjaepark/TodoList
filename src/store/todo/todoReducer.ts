@@ -6,7 +6,7 @@ import {
   SET_TODO_SELECTED,
   EMPTY_SELECTED,
   UPDATE_TODO,
-  REMOVE_TODO, SET_TODO_FINISH_LIST, ADD_FINISH_TODO,
+  REMOVE_TODO, SET_TODO_FINISH_LIST, ADD_FINISH_TODO, REMOVE_FINISH_TODO,
 } from './todoActions';
 import RootAction from '../rootAction';
 import { Todo } from '../../interfaces';
@@ -82,6 +82,11 @@ const products = (state: TodoState = initialState, action: RootAction) => {
       return Object.assign({}, state, {
         finishList: [action.payload, ...state.finishList],
       });
+    case REMOVE_FINISH_TODO:
+      return {
+        ...state,
+        finishList: Object.assign([], state.finishList.filter((item) => item.id !== action.payload)),
+      };
     default:
       return state;
   }

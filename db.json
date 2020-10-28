@@ -1,44 +1,12 @@
 {
   "todos": [
     {
-      "title": "23",
+      "title": "TEST",
       "body": "123",
       "priority": "HIGH",
-      "endDate": "2020-10-14T15:50:56.736Z",
-      "completed": true,
-      "id": 1
-    },
-    {
-      "title": "1",
-      "body": "1",
-      "priority": "",
-      "endDate": "",
-      "completed": true,
-      "id": 2
-    },
-    {
-      "title": "123",
-      "body": "123",
-      "priority": "",
-      "endDate": "",
-      "completed": true,
-      "id": 3
-    },
-    {
-      "title": "123",
-      "body": "123",
-      "priority": "MEDIUM",
-      "endDate": "",
-      "completed": true,
-      "id": 4
-    },
-    {
-      "title": "123",
-      "body": "2313",
-      "priority": "",
-      "endDate": "",
+      "endDate": "2020-11-01T15:50:56.736Z",
       "completed": false,
-      "id": 5
+      "id": 1
     }
   ]
 }

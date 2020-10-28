@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Layout, Collapse, Drawer, Input, DatePicker, Form, Select, Empty, PageHeader } from 'antd';
+import { Button, Layout, Collapse, Form, Empty, PageHeader, Tag, Modal, message } from 'antd';
 import './styles/index.css';
-import { EditOutlined, PlusCircleOutlined, DeleteOutlined } from '@ant-design/icons';
+import './App.css';
+import { PlusCircleOutlined } from '@ant-design/icons';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from './store/rootReducer';
 import { actions } from './store/rootAction';
-import TextArea from 'antd/es/input/TextArea';
 import { Todo } from './interfaces';
 import moment from 'moment';
+import { dateDiff } from './util/common';
+import { SideDrawer } from './components/SideDrawer';
+import { modalConfirm } from './util/modal';
 
 const { Panel } = Collapse;
 
@@ -24,6 +27,24 @@ const App = () => {
         dispatch(actions.todos.fetchTodoList());
         dispatch(actions.todos.fetchTodoFinishList());
     }, []);
+
+    useEffect(() => {
+        const counts = list.reduce((acc, current) => {
+            if (current.endDate && dateDiff(current.endDate) > 0 && dateDiff(current.endDate) < 4) {
+                acc.approach += 1;
+            } else if (current.endDate && dateDiff(current.endDate) <= 0) {
+                acc.overdue += 1;
+            }
+            return acc;
+        }, { overdue: 0, approach: 0 });
+
+        if (counts.approach) {
+            message.warning(`마감기한이 3일 앞으로 다가온 일정 ${counts.approach}건`);
+        }
+        if (counts.overdue) {
+            message.error(`마감기한이 지난 일정 ${counts.overdue}건`);
+        }
+    }, [list.length]);
 
     useEffect(() => {
         form.setFieldsValue({ ...todo.selected, endDate: todo.selected.endDate ? moment(todo.selected.endDate) : '' });
@@ -43,41 +64,50 @@ const App = () => {
     };
 
     const onFinish = (values: Todo) => {
-        if (todo.selected.id) {
+        if (todo.selected.id && todo.selected.completed) {
+            dispatch(actions.todos.patchFinishTodo({ ...values, id: todo.selected.id, completed: false }));
+        } else if (todo.selected.id) {
             dispatch(actions.todos.patchTodo({ ...values, id: todo.selected.id }));
         } else {
             dispatch(actions.todos.postTodo({ ...values, completed: false }));
         }
+
         setShowDrawer(false);
+    };
+
+    const onEdit = (event: React.MouseEvent<HTMLElement>, todo: Todo) => {
+        event.stopPropagation();
+        if (todo.id) {
+            dispatch(actions.todos.getTodo(todo.id));
+            onOpen();
+        }
+    };
+
+    const onDelete = async (event: React.MouseEvent<HTMLElement>, todo: Todo) => {
+        event.stopPropagation();
+        modalConfirm({ title: '삭제하시겠습니까?', callback: res => setDelete(res, todo) });
+    };
+
+    const setDelete = (res: boolean, todo: Todo) => {
+        if (res && todo.id) {
+            dispatch(actions.todos.deleteTodo(todo.id));
+        }
+    };
+
+    const onComplete = (event: React.MouseEvent<HTMLElement>, todo: Todo) => {
+        event.stopPropagation();
+        if (todo.id) {
+            dispatch(actions.todos.patchFinishTodo({ ...todo, completed: true }));
+        }
     };
 
     const genExtra = (todo: Todo) => (
         <>
-            {!todo.completed ? <Button
-                type="primary" danger size={'small'} onClick={event => {
-                event.stopPropagation();
-                if (todo.id) {
-                    dispatch(actions.todos.patchFinishTodo({ ...todo, completed: true }));
-                }
-            }}
-            >완료하기</Button> : ''}
-            <Button
-                type="primary" size={'small'} onClick={event => {
-                event.stopPropagation();
-                if (todo.id) {
-                    dispatch(actions.todos.getTodo(todo.id));
-                    onOpen();
-                }
-            }}
-            >수정</Button>
-            <Button
-                type="primary" size={'small'} onClick={event => {
-                event.stopPropagation();
-                if (todo.id) {
-                    dispatch(actions.todos.deleteTodo(todo.id));
-                }
-            }}
-            >삭제</Button>
+            {todo.endDate ? <Tag color={dateDiff(todo.endDate) > 0 ? 'warning' : 'error'}>{Math.abs(dateDiff(todo.endDate))}{dateDiff(todo.endDate) > 0 ? '일 뒤' : '일 지남'}</Tag> : ''}
+            {!todo.completed ? (
+                <Button type="primary" danger size={'small'} onClick={event => onComplete(event, todo)}>완료하기</Button>) : ''}
+            <Button type="primary" size={'small'} onClick={event => onEdit(event, todo)}>수정</Button>
+            <Button type="primary" size={'small'} onClick={event => onDelete(event, todo)}>삭제</Button>
         </>
     );
 
@@ -154,70 +184,13 @@ const App = () => {
                     {finishList.length ? renderTodosFinish() : ''}
                 </Content>
             </Layout>
-            <Form
+            <SideDrawer
                 form={form}
-                initialValues={todo.selected}
-                name="form"
                 onFinish={onFinish}
-            >
-                <Drawer
-                    title={
-                        <Form.Item name={'title'} style={{ marginBottom: 0 }} label={'제목'}><Input disabled={todo.selected.completed}/></Form.Item>}
-                    width={300}
-                    placement="right"
-                    closable={false}
-                    onClose={onClose}
-                    visible={showDrawer}
-                >
-                    <Form.Item name={'body'} label={'내용'}>
-                        <TextArea disabled={todo.selected.completed}/>
-                    </Form.Item>
-                    <Form.Item name={'priority'} label={'우선순위'}>
-                        <Select disabled={todo.selected.completed} style={{ width: 120 }} allowClear>
-                            <Select.Option value="HIGH">높음</Select.Option>
-                            <Select.Option value="MEDIUM">보통</Select.Option>
-                            <Select.Option value="LOW">낮음</Select.Option>
-                        </Select>
-                    </Form.Item>
-                    <Form.Item name={'endDate'} label={'마감기한'}>
-                        <DatePicker
-                            disabled={todo.selected.completed}
-                            placeholder={'마감기한'}
-                            onChange={() => {
-                            }}
-                        />
-                    </Form.Item>
-                    {todo.selected.completed ?
-                        <Button
-                            block
-                            type="ghost"
-                            disabled
-                            size={'large'}
-                            htmlType="submit"
-                            onClick={form.submit}
-                            style={{
-                                position: 'absolute',
-                                bottom: '0px',
-                                left: 0,
-                                padding: '0px 10px',
-                            }}
-                        >완료됨</Button> :
-                        <Button
-                            block
-                            type="primary"
-                            size={'large'}
-                            htmlType="submit"
-                            onClick={form.submit}
-                            style={{
-                                position: 'absolute',
-                                bottom: '0px',
-                                left: 0,
-                                padding: '0px 10px',
-                            }}
-                        >저장</Button>
-                    }
-                </Drawer>
-            </Form>
+                onClose={onClose}
+                selected={todo.selected}
+                showDrawer={showDrawer}
+            />
         </>
     );
 };

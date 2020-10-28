@@ -16,6 +16,7 @@ export const DELETE_TODO = 'DELETE_TODO';
 export const REMOVE_TODO = 'REMOVE_TODO';
 export const PATCH_FINISH_TODO = 'PATCH_FINISH_TODO';
 export const ADD_FINISH_TODO = 'ADD_FINISH_TODO';
+export const REMOVE_FINISH_TODO = 'REMOVE_FINISH_TODO';
 
 export type Actions = {
     FETCH_TODO_LIST: {
@@ -78,6 +79,10 @@ export type Actions = {
     ADD_FINISH_TODO: {
         type: typeof ADD_FINISH_TODO,
         payload: Todo
+    },
+    REMOVE_FINISH_TODO: {
+        type: typeof REMOVE_FINISH_TODO,
+        payload: number,
     }
 }
 
@@ -172,6 +177,12 @@ export const todoActions = {
     removeTodo: (id: number): Actions[typeof REMOVE_TODO] => (
         {
             type: REMOVE_TODO,
+            payload: id,
+        }
+    ),
+    removeFinishTodo: (id: number): Actions[typeof REMOVE_FINISH_TODO] => (
+        {
+            type: REMOVE_FINISH_TODO,
             payload: id,
         }
     ),

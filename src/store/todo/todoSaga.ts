@@ -76,7 +76,10 @@ export function* patchFinishTodoSaga({ payload }: ReturnType<typeof todoActions.
     if (payload) {
       yield patchTodo(payload);
     }
-    if (payload.id) {
+    if (payload.id && !payload.completed) {
+      yield put(actions.removeFinishTodo(payload.id));
+      yield put(actions.addTodo(payload));
+    } else if (payload.id) {
       yield put(actions.removeTodo(payload.id));
       yield put(actions.addFinishTodo(payload));
     }
