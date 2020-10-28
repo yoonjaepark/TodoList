@@ -30,8 +30,9 @@
 ### 사용 라이브러리
 - antd: ui 라이브러리 [https://ant.design/](https://ant.design/)
 - json-serve: 가상의 데이터 서버를 구성할 수 있도록 도와주는 라이브러리 [https://github.com/typicode/json-server](https://github.com/typicode/json-server)
-- redux-saga
-- react-redux
-- typesafe-actions
-- redux-devtools-extension
-- lodash
+- redux-saga: 리덕스 비동기 처리를 위한 미들웨어
+- react-redux: 리엑트에 리덕스 바인딩을 위한 라이브러리
+- typesafe-actions: 타입스크립트에서 action을 생성할 때 도움을 주는 라이브러리.
+- redux-devtools-extension: 크롬 리덕스 데브툴
+- lodash: 각종 데이터 조작을 도와주는 라이브러리
+- moment: 날짜 데이터 조작을 도와주는 라이브러리
